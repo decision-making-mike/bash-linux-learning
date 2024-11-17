@@ -1,21 +1,17 @@
 | Notes
 |   This learning material is intended to cover directories that exist in Linux distributions. But, there may be additional information that do not apply to Linux distributions. They may instead apply to UNIX or other operating systems related to Linux.
 |   The format of an entry is
-|       "Directory path
-|       | ETY   Directory name etymology notes
+|       "Directory path (etymology notes)
 |       | RDI   Related directories
 |       | RSO   Related software, standards, conventions, documentation, etc.".
 
 /
-    /bin (11, 8)
-    | ETY   Binaries (11)
+    /bin ("binaries") (11, 8)
     | RDI   /usr (11), /sbin (8), /usr/bin (11)
     /boot (11, 8)
     | RSO   Kernel (8)
     /dev (11, 8)
-    | ETY   Devices (11)
-    /etc (11, 8)
-    | ETY   Et cetera, editable-text-configurations (11)
+    /etc (once "et cetera", now "editable-text-configurations") (11, 8)
     | RDI   /sbin (11), /usr/etc (8)
         /etc/opt (8)
         | RDI   /opt (8)
@@ -46,14 +42,12 @@
         /media/zip[1-9] (8)
         /media/usb[1-9] (8)
     /mnt (11, 8)
-    | ETY   Mount (11)
     /opt (11, 8)
     | RDI   /etc/opt (8), /var/opt (8)
     /proc (11, 8)
     | RSO   Kernel (8), proc(5) (8)
     /root (11, 8)
-    /sbin (11, 8)
-    | ETY   System binaries, superuser binaries (11)
+    /sbin ("system binaries", "superuser binaries") (11, 8)
     | RDI   /bin (8)
     /srv (11, 8)
     /sys (11, 8)
@@ -74,8 +68,7 @@
         | RDI   /etc (8)
         /usr/games (8)
         | RDI   /usr/share/games (8)
-        /usr/include (11, 8)
-        | ETY   #include C directive (11)
+        /usr/include (C #include directive) (11, 8)
             /usr/include/bsd (8)
             | RSO   BSD (8)
             /usr/include/asm (8)
@@ -191,7 +184,6 @@
                 /usr/X11R6/include/X11 (8)
                 | RDI   /usr/include/X11 (8)
     /var (11, 8)
-    | ETY   Variable (11)
         /var/account (8)
         /var/adm (8)
         | RDI   /var/log (8)
@@ -254,8 +246,7 @@
         /var/src (11)
         /var/tmp (11, 8)
         | RDI   /usr/tmp (8)
-        /var/yp (8)
-        | ETY   Sun Yellow Pages (8)
+        /var/yp ("Sun Yellow Pages") (8)
         | RSO   NIS (8)
 
 | Sources and other related resources
