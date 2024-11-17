@@ -3,14 +3,12 @@
 |   The format of an entry is
 |       "Directory path
 |       | ETY   Directory name etymology notes
-|       | SYM   Symlink notes
 |       | RDI   Related directories
 |       | RSO   Related software, standards, conventions, documentation, etc.".
 
 /
     /bin (11, 8)
     | ETY   Binaries (11)
-    | SYM   May be a symlink to /usr/bin (11)
     | RDI   /usr (11), /sbin (8), /usr/bin (11)
     /boot (11, 8)
     | RSO   Kernel (8)
@@ -64,7 +62,6 @@
     /usr (11, 8)
         /usr/bin (8)
             /usr/bin/X11 (8)
-            | SYM   Usually a symbolic link to /usr/X11R6/bin
             | RDI   /usr/X11R6/bin (8)
             | RSO   X11 (8)
             /usr/bin/mh (8)
@@ -82,16 +79,14 @@
             /usr/include/bsd (8)
             | RSO   BSD (8)
             /usr/include/asm (8)
-            | SYM   Used to be a symbolic link to /usr/src/linux/include/asm
             | RDI   /usr/src/linux/include/asm (8)
             | RSO   Assembler (8)
             /usr/include/linux (8)
-            | SYM   Used to be a symbolic link to /usr/src/linux/include/linux (8)
+            | RDI   /usr/src/linux/include/linux (8)
             | RSO   libc (8)
             /usr/include/g++ (8)
             | RSO   g++ (8)
             /usr/include/X11 (8)
-            | SYM   Usually a symbolic link to /usr/X11R6/include/X11 (8)
             | RDI   /usr/X11R6/include/X11 (8)
         /usr/lib (11, 8)
         | RDI   /usr (11), /usr/lib<qual> (8)
@@ -102,7 +97,6 @@
             /usr/lib/uucp (8)
             | RSO   uucp(1) (8)
             /usr/lib/X11 (8)
-            | SYM   Usually a symbolic link to /usr/X11R6/lib/X11 (8)
             | RDI   /usr/X11R6/lib/X11 (8)
             | RSO   X (8)
         /usr/lib<qual> (8)
@@ -200,7 +194,6 @@
     | ETY   Variable (11)
         /var/account (8)
         /var/adm (8)
-        | SYM   Should be a symlink to /var/log (8)
         | RDI   /var/log (8)
         /var/backups (8)
         /var/cache (8)
@@ -234,7 +227,6 @@
         /var/log (11, 8)
         | RDI   /var/adm (8)
         /var/mail (11)
-        | SYM   Often a symbolic link to /var/spool/mail
         | RDI   /var/spool/mail (8)
         /var/msgs (8)
         /var/opt (8)
