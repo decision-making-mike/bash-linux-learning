@@ -1,3 +1,3 @@
-# Linux learning
+# Bash and linux learning
 
-A repository documenting my learning of Linux
+A repository documenting my learning of Bash and Linux
