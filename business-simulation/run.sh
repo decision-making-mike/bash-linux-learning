@@ -15,8 +15,10 @@ day=1
 money=0
 loan=0
 driver_count=0
+car_count=0
+car_rent_charge=1
 salary=10
-income=11
+income=13
 income_tax_rate_numerator=1
 income_tax_rate_denominator=10
 interest_rate_numerator=1
@@ -50,11 +52,29 @@ do_business () {
             else (( driver_count -= "${c[1]}" ))
             fi
             ;;
+
+        rent) (( car_count += "${c[1]}" )) ;;
+
+        end)
+            case "${c[1]}" in
+                renting)
+                    if [[ "${c[2]}" -gt "$car_count" ]]
+                    then car_count=0
+                    else (( car_count -= "${c[2]}" ))
+                    fi
+                    ;;
+            esac
+            ;;
     esac
 }
 
+min () {
+    echo "$(( "$1" <= "$2" ? "$1" : "$2" ))"
+}
+
 handle_day () {
-    total_income="$(( "$income" * "$driver_count" ))"
+    used_car_count="$(min "$driver_count" "$car_count")"
+    total_income="$(( "$income" * "$used_car_count" ))"
     (( money += "$total_income" ))
     total_income_tax="$(( "$total_income" * "$income_tax_rate_numerator" / "$income_tax_rate_denominator" ))"
     (( money -= "$total_income_tax" ))
@@ -65,6 +85,14 @@ handle_day () {
         echo "Money $money, cannot pay the interest $interest, business closed"
         exit
     else (( money -= "$interest" ))
+    fi
+
+    total_car_rent_charge="$(( "$car_count" * "$car_rent_charge" ))"
+    if [[ "$money" -lt "$total_car_rent_charge" ]]
+    then
+        echo "Money $money, cannot pay the total car rent charge $total_car_rent_charge, business closed"
+        exit
+    else (( money -= "$total_car_rent_charge" ))
     fi
 
     total_salary="$(( "$salary" * "$driver_count" ))"
@@ -88,7 +116,8 @@ save () {
 "day=$day\n"\
 "money=$money\n"\
 "loan=$loan\n"\
-"driver_count=$driver_count"
+"driver_count=$driver_count\n"\
+"car_count=$car_count"
 }
 
 run () {
@@ -96,7 +125,9 @@ run () {
     while true
     do
         clear
-        echo "Day $day | Money $money | Loan $loan | Driver count $driver_count"
+        echo -e \
+"Day $day | Money $money | Loan $loan\n"\
+"Car count $car_count | Driver count $driver_count | Used car count $(min "$car_count" "$driver_count")"
         read -n 1 -t 2 c
         case "$c" in
             d) do_business ;;
