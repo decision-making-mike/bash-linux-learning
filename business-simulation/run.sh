@@ -31,12 +31,12 @@ do_business () {
             ;;
 
         repay)
-            if [[ "${c[1]}" > "$money" ]]
+            if [[ "${c[1]}" -gt "$money" ]]
             then money=0
             else (( money -= "${c[1]}" ))
             fi
 
-            if [[ "${c[1]}" > "$loan" ]]
+            if [[ "${c[1]}" -gt "$loan" ]]
             then loan=0
             else (( loan -= "${c[1]}" ))
             fi
@@ -45,7 +45,7 @@ do_business () {
         employ) (( driver_count += "${c[1]}" )) ;;
 
         dismiss)
-            if [[ "${c[1]}" > "$driver_count" ]]
+            if [[ "${c[1]}" -gt "$driver_count" ]]
             then driver_count=0
             else (( driver_count -= "${c[1]}" ))
             fi
