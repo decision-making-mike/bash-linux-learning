@@ -1,0 +1,1 @@
+`>` and `<` seem to only compare strings with the `[[` command, not numbers. Compare https://www.gnu.org/software/bash/manual/bash.html#Bash-Conditional-Expressions and https://mywiki.wooledge.org/BashFAQ/031.
