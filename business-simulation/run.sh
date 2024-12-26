@@ -15,10 +15,13 @@ day=1
 money=0
 loan=0
 driver_count=0
+manager_count=0
 car_count=0
 car_rent_charge=1
 salary=10
 income=13
+# https://www.gov.uk/become-transport-manager
+maximum_single_manager_vehicle_count=51
 income_tax_rate_numerator=1
 income_tax_rate_denominator=10
 interest_rate_numerator=1
@@ -44,13 +47,29 @@ do_business () {
             fi
             ;;
 
-        employ) (( driver_count += "${c[1]}" )) ;;
+        employ)
+            case "${c[1]}" in
+                drivers) (( driver_count += "${c[2]}" )) ;;
+                managers) (( manager_count += "${c[2]}" )) ;;
+            esac
+            ;;
 
         dismiss)
-            if [[ "${c[1]}" -gt "$driver_count" ]]
-            then driver_count=0
-            else (( driver_count -= "${c[1]}" ))
-            fi
+            case "${c[1]}" in
+                drivers)
+                    if [[ "${c[2]}" -gt "$driver_count" ]]
+                    then driver_count=0
+                    else (( driver_count -= "${c[1]}" ))
+                    fi
+                    ;;
+
+                managers)
+                    if [[ "${c[2]}" -gt "$manager_count" ]]
+                    then manager_count=0
+                    else (( manager_count -= "${c[1]}" ))
+                    fi
+                    ;;
+            esac
             ;;
 
         rent) (( car_count += "${c[1]}" )) ;;
@@ -74,7 +93,13 @@ min () {
 
 handle_day () {
     used_car_count="$(min "$driver_count" "$car_count")"
-    total_income="$(( "$income" * "$used_car_count" ))"
+    total_income=0
+    if [[ "$manager_count" -gt 0 ]]
+    then
+        fleet_management_efficiency_rate_numerator="$(( "$maximum_single_manager_vehicle_count" - "$car_count" / "$manager_count" ))"
+        fleet_management_efficiency_rate_denominator="$maximum_single_manager_vehicle_count"
+        total_income="$(( "$fleet_management_efficiency_rate_numerator" * "$income" * "$used_car_count" / "$fleet_management_efficiency_rate_denominator" ))"
+    fi
     (( money += "$total_income" ))
     total_income_tax="$(( "$total_income" * "$income_tax_rate_numerator" / "$income_tax_rate_denominator" ))"
     (( money -= "$total_income_tax" ))
@@ -95,7 +120,7 @@ handle_day () {
     else (( money -= "$total_car_rent_charge" ))
     fi
 
-    total_salary="$(( "$salary" * "$driver_count" ))"
+    total_salary="$(( "$salary" * ("$driver_count" + "$manager_count") ))"
     if [[ "$money" -lt "$total_salary" ]]
     then
         echo "Money $money, cannot pay the total salary $total_salary, business closed"
@@ -117,6 +142,7 @@ save () {
 "money=$money\n"\
 "loan=$loan\n"\
 "driver_count=$driver_count\n"\
+"manager_count=$manager_count\n"\
 "car_count=$car_count"
 }
 
@@ -127,7 +153,8 @@ run () {
         clear
         echo -e \
 "Day $day | Money $money | Loan $loan\n"\
-"Car count $car_count | Driver count $driver_count | Used car count $(min "$car_count" "$driver_count")"
+"Driver count $driver_count | Manager count $manager_count\n"\
+"Car count $car_count | Used car count $(min "$car_count" "$driver_count")"
         read -n 1 -t 2 c
         case "$c" in
             d) do_business ;;
