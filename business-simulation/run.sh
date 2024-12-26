@@ -4,6 +4,8 @@
 
 # Notable commands. "CTRL-D" ends the day without waiting, "CTRL-C" exits the simulation.
 
+# Passing variables as parameters. I avoid passing variables as parameters, either to functions or to commands. This is because I think it makes the code more complex, by which I mainly mean more difficult to follow. There are two consequences. First, I try not to define additional functions if possible, and second, I use more global variables.
+
 save_file_path="$1"
 if [[ -z "$save_file_path" ]]
 then
