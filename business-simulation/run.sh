@@ -17,7 +17,7 @@ fi
 
 day=1
 money=0
-loan=0
+loans=0
 savings=0
 driver_count=0
 manager_count=0
@@ -40,7 +40,7 @@ do_business () {
     case "${c[0]}" in
         borrow)
             (( money += "${c[1]}" ))
-            (( loan += "${c[1]}" ))
+            (( loans += "${c[1]}" ))
             ;;
 
         repay)
@@ -49,9 +49,9 @@ do_business () {
             else (( money -= "${c[1]}" ))
             fi
 
-            if [[ "${c[1]}" -gt "$loan" ]]
-            then loan=0
-            else (( loan -= "${c[1]}" ))
+            if [[ "${c[1]}" -gt "$loans" ]]
+            then loans=0
+            else (( loans -= "${c[1]}" ))
             fi
             ;;
 
@@ -139,7 +139,7 @@ handle_day () {
     total_gross_income="$(get_total_gross_income)"
     total_income_tax="$(( "$total_gross_income" * "$income_tax_rate_numerator" / "$income_tax_rate_denominator" ))"
     total_net_income="$(( "$total_gross_income" - "$total_income_tax" ))"
-    interest="$(( "$loan" * "$interest_rate_numerator" / "$interest_rate_denominator" ))"
+    interest="$(( "$loans" * "$interest_rate_numerator" / "$interest_rate_denominator" ))"
     total_car_rent_charge="$(( "$car_count" * "$car_rent_charge" ))"
     total_salary="$(( "$salary" * ("$driver_count" + "$manager_count") ))"
     total_expenses="$(( "$total_car_rent_charge" + "$total_salary" ))"
@@ -167,7 +167,7 @@ save () {
         > "$save_file_path" \
 "day=$day\n"\
 "money=$money\n"\
-"loan=$loan\n"\
+"loans=$loans\n"\
 "savings=$savings\n"\
 "driver_count=$driver_count\n"\
 "manager_count=$manager_count\n"\
@@ -182,7 +182,7 @@ run () {
         clear
         echo -e \
 "Day $day | Money $money | Last day result $last_day_result\n"\
-"Loan $loan | Savings $savings\n"\
+"Loans $loans | Savings $savings\n"\
 "Driver count $driver_count | Manager count $manager_count\n"\
 "Car count $car_count | Used car count $(min "$car_count" "$driver_count")"
         read -n 1 -t 2 c
