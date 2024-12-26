@@ -20,8 +20,8 @@ car_count=0
 car_rent_charge=1
 salary=10
 income=13
-# https://www.gov.uk/become-transport-manager
-maximum_single_manager_vehicle_count=51
+# The maximum single manager vehicle count is 50 because I assume https://www.gov.uk/become-transport-manager as a requirement. This in turn was implemented because I needed some upper limit for manager effectiveness so that just employing more managers, without renting new cars, not yield higher income ad infinitum.
+maximum_single_manager_vehicle_count=50
 income_tax_rate_numerator=1
 income_tax_rate_denominator=10
 interest_rate_numerator=1
@@ -96,8 +96,9 @@ handle_day () {
     total_income=0
     if [[ "$manager_count" -gt 0 ]]
     then
-        fleet_management_efficiency_rate_numerator="$(( "$maximum_single_manager_vehicle_count" - "$car_count" / "$manager_count" ))"
-        fleet_management_efficiency_rate_denominator="$maximum_single_manager_vehicle_count"
+        # I'm adding 1 to the maximum single manager vehicle count since this count is the maximum one that should make the manager yield at least minimal result. If the 1 weren't added, the manager would yield a result equal to zero.
+        fleet_management_efficiency_rate_numerator="$(( "$maximum_single_manager_vehicle_count" + 1 - "$car_count" / "$manager_count" ))"
+        fleet_management_efficiency_rate_denominator="$(( "$maximum_single_manager_vehicle_count" + 1 ))"
         total_income="$(( "$fleet_management_efficiency_rate_numerator" * "$income" * "$used_car_count" / "$fleet_management_efficiency_rate_denominator" ))"
     fi
     (( money += "$total_income" ))
