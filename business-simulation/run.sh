@@ -18,9 +18,11 @@ fi
 day=1
 money=0
 loan=0
+savings=0
 driver_count=0
 manager_count=0
 car_count=0
+last_day_result=0
 car_rent_charge=1
 salary=10
 income=25
@@ -30,6 +32,8 @@ income_tax_rate_numerator=1
 income_tax_rate_denominator=10
 interest_rate_numerator=1
 interest_rate_denominator=100
+savings_interest_rate_numerator=1
+savings_interest_rate_denominator=100
 
 do_business () {
     read -a c -p ' > '
@@ -48,6 +52,28 @@ do_business () {
             if [[ "${c[1]}" -gt "$loan" ]]
             then loan=0
             else (( loan -= "${c[1]}" ))
+            fi
+            ;;
+
+        save)
+            if [[ "${c[1]}" -gt "$money" ]]
+            then
+                (( savings += "$money" ))
+                money=0
+            else
+                (( money -= "${c[1]}" ))
+                (( savings += "${c[1]}" ))
+            fi
+            ;;
+
+        desave)
+            if [[ "${c[1]}" -gt "$savings" ]]
+            then
+                (( money += "$savings" ))
+                savings=0
+            else
+                (( savings -= "${c[1]}" ))
+                (( money += "${c[1]}" ))
             fi
             ;;
 
@@ -96,14 +122,15 @@ min () {
 }
 
 get_total_gross_income () {
-    total_gross_income=0
     used_car_count="$(min "$driver_count" "$car_count")"
+    savings_interest="$(( "$savings" * "$savings_interest_rate_numerator" / "$savings_interest_rate_denominator" ))"
+    total_gross_income="$savings_interest"
     if [[ "$manager_count" -gt 0 ]]
     then
         # I'm adding 1 to the maximum single manager vehicle count since this count is the maximum one that should make the manager yield at least minimal result. If the 1 weren't added, the manager would yield a result equal to zero.
         fleet_management_efficiency_rate_numerator="$(( "$maximum_single_manager_vehicle_count" + 1 - "$car_count" / "$manager_count" ))"
         fleet_management_efficiency_rate_denominator="$(( "$maximum_single_manager_vehicle_count" + 1 ))"
-        total_gross_income="$(( "$fleet_management_efficiency_rate_numerator" * "$income" * "$used_car_count" / "$fleet_management_efficiency_rate_denominator" ))"
+        (( total_gross_income += "$fleet_management_efficiency_rate_numerator" * "$income" * "$used_car_count" / "$fleet_management_efficiency_rate_denominator" ))
     fi
     echo "$total_gross_income"
 }
@@ -123,7 +150,9 @@ handle_day () {
         # Notice that we don't add the day result to money here, but only if the check fails. It prevents to save the current, unfortunate state of the business. This in turn gives the user a small chance to take remedial action in the first day, by starting the simulation anew with the file with the current save.
         echo "Money $money, day result $day_result, balance is going to be negative, business closed"
         exit 0
-    else (( money += "$day_result" ))
+    else
+        (( money += "$day_result" ))
+        last_day_result="$day_result"
     fi
 
     (( ++day ))
@@ -139,9 +168,11 @@ save () {
 "day=$day\n"\
 "money=$money\n"\
 "loan=$loan\n"\
+"savings=$savings\n"\
 "driver_count=$driver_count\n"\
 "manager_count=$manager_count\n"\
-"car_count=$car_count"
+"car_count=$car_count\n"\
+"last_day_result=$last_day_result"
 }
 
 run () {
@@ -150,7 +181,8 @@ run () {
     do
         clear
         echo -e \
-"Day $day | Money $money | Loan $loan\n"\
+"Day $day | Money $money | Last day result $last_day_result\n"\
+"Loan $loan | Savings $savings\n"\
 "Driver count $driver_count | Manager count $manager_count\n"\
 "Car count $car_count | Used car count $(min "$car_count" "$driver_count")"
         read -n 1 -t 2 c
