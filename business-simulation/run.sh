@@ -19,7 +19,7 @@ manager_count=0
 car_count=0
 car_rent_charge=1
 salary=10
-income=13
+income=25
 # The maximum single manager vehicle count is 50 because I assume https://www.gov.uk/become-transport-manager as a requirement. This in turn was implemented because I needed some upper limit for manager effectiveness so that just employing more managers, without renting new cars, not yield higher income ad infinitum.
 maximum_single_manager_vehicle_count=50
 income_tax_rate_numerator=1
