@@ -145,7 +145,7 @@ handle_day () {
     total_expenses="$(( "$total_car_rent_charge" + "$total_salary" ))"
     day_result="$(( "$total_net_income" - "$total_expenses" ))"
 
-    if [[ "$(( "$day_result" + "$money" ))" < 0 ]]
+    if [[ "$(( "$day_result" + "$money" ))" -lt 0 ]]
     then
         # Notice that we don't add the day result to money here, but only if the check fails. It prevents to save the current, unfortunate state of the business. This in turn gives the user a small chance to take remedial action in the first day, by starting the simulation anew with the file with the current save.
         echo "Money $money, day result $day_result, balance is going to be negative, business closed"
