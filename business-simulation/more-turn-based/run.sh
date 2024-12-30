@@ -114,6 +114,16 @@ do_business () {
                     ;;
             esac
             ;;
+
+        show)
+            case "${c[1]}" in
+                yesterday)
+                        printf \
+                            "\tLast day result %'i\n"\
+                            "$last_day_result"
+                        read
+                    ;;
+            esac
     esac
 }
 
@@ -182,13 +192,12 @@ run () {
         clear
         # I have introduced "printf" instead of "echo" to display money amounts with the, so-called, "thousands' grouping characters". No idea why there is plural used, but it seems to do what I want. By introducing it I aim for easier reading. See "man bash" (search for "printf"), "man 1 printf", "man 3 printf", https://pubs.opengroup.org/onlinepubs/9799919799/functions/printf.html. If you want to change how thousand groups are separated, you need to, if I understood correctly, change the "LC_NUMERIC" environment variable.
         printf \
-"Day %i | Money %'i | Last day result %'i\n"\
+"Day %i | Money %'i\n"\
 "Loans %'i | Savings %'i\n"\
 "Driver count %i | Manager count %i\n"\
 "Car count %i | Used car count %i\n"\
             "$day"\
             "$money"\
-            "$last_day_result"\
             "$loans"\
             "$savings"\
             "$driver_count"\
