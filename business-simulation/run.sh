@@ -119,7 +119,7 @@ do_business () {
             case "${c[1]}" in
                 yesterday)
                     printf \
-                        "\tLast day result %'i\n"\
+"\tLast day result %'i\n"\
                         "$last_day_result"
                     ;;
                 loans)
