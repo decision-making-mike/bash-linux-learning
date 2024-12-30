@@ -118,10 +118,10 @@ do_business () {
         show)
             case "${c[1]}" in
                 yesterday)
-                        printf \
-                            "\tLast day result %'i\n"\
-                            "$last_day_result"
-                        read
+                    printf \
+                        "\tLast day result %'i\n"\
+                        "$last_day_result"
+                    read
                     ;;
             esac
     esac
