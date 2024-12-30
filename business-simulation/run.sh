@@ -121,9 +121,9 @@ do_business () {
                     printf \
                         "\tLast day result %'i\n"\
                         "$last_day_result"
-                    read
                     ;;
             esac
+            read
     esac
 }
 
