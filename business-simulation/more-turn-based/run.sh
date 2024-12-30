@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Help commands. Many command-line applications include functionality for showing help, like the "--help" parameter, or for showing various runtime information, like the "--verbose" parameter. I intentionally do not include such functionality within this script, neither through parameters, nor through internal commands, that is, at the level of the "borrow", "rent" and other commands. The reason is, I believe that the simplicity of a Bash script makes it significantly easier to debug. Such functionality should require, as far as I can imagine, duplication of command names, and that would introduce complexity.
+# Help functionality. Many command-line applications include functionality for showing help, like the "--help" parameter, or for showing various runtime information, like the "--verbose" parameter. I intentionally do not include such functionality within this script, neither through parameters, nor through internal commands, that is, at the level of the "borrow", "rent" and other commands. The reason is, I believe that the simplicity of a Bash script makes it significantly easier to debug. Such functionality should require, as far as I can imagine, duplication of command names, and that would introduce complexity.
 
 # Notable commands. "CTRL-D" ends the day without waiting, "CTRL-C" exits the simulation.
 
