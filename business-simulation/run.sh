@@ -122,6 +122,38 @@ do_business () {
                         "\tLast day result %'i\n"\
                         "$last_day_result"
                     ;;
+                loans)
+                    printf \
+"\tLoans %'i\n"\
+"\tLoan interest rate %'i/%'i\n"\
+                        "$loans"\
+                        "$interest_rate_numerator"\
+                        "$interest_rate_denominator"
+                    ;;
+                savings)
+                    printf \
+"\tSavings %'i\n"\
+"\tSavings interest rate %'i/%'i\n"\
+                        "$savings"\
+                        "$savings_interest_rate_numerator"\
+                        "$savings_interest_rate_denominator"
+                    ;;
+                cars)
+                    printf \
+"\tCar count %'i\n"\
+"\tCar rent charge %'i\n"\
+                        "$car_count"\
+                        "$car_rent_charge"
+                    ;;
+                employees)
+                    printf \
+"\tDriver count %'i\n"\
+"\tManager count %'i\n"\
+"\tSalary %'i\n"\
+                        "$driver_count"\
+                        "$manager_count"\
+                        "$salary"
+                    ;;
             esac
             read
     esac
