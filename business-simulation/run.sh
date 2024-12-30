@@ -36,7 +36,7 @@ savings_interest_rate_numerator=1
 savings_interest_rate_denominator=100
 
 do_business () {
-    read -a c -p '> '
+    read -a c
     case "${c[0]}" in
         borrow)
             (( money += "${c[1]}" ))
@@ -236,7 +236,14 @@ run () {
             "$manager_count"\
             "$car_count"\
             "$(min "$car_count" "$driver_count")"
-        do_business
+        while read -p '> ' c
+        do
+            if [[ -z "$c" ]]
+            then break
+            fi
+
+            echo "$c" | do_business
+        done
         handle_day
         save
     done
