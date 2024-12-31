@@ -156,6 +156,7 @@ do_business () {
                     ;;
             esac
             read
+            ;;
     esac
 }
 
