@@ -183,7 +183,7 @@ min () {
     echo "$(( "$1" <= "$2" ? "$1" : "$2" ))"
 }
 
-get_total_gross_income () {
+get_total_net_income () {
     used_car_count="$(min "$driver_count" "$car_count")"
     savings_interest="$(( "$savings" * "$savings_interest_rate_numerator" / "$savings_interest_rate_denominator" ))"
     total_gross_income="$savings_interest"
@@ -194,13 +194,13 @@ get_total_gross_income () {
         fleet_management_efficiency_rate_denominator="$(( "$maximum_single_manager_vehicle_count" + 1 ))"
         (( total_gross_income += "$fleet_management_efficiency_rate_numerator" * "$income" * "$used_car_count" / "$fleet_management_efficiency_rate_denominator" ))
     fi
+    total_income_tax="$(( "$total_gross_income" * "$income_tax_rate_numerator" / "$income_tax_rate_denominator" ))"
+    total_net_income="$(( "$total_gross_income" - "$total_income_tax" ))"
     echo "$total_gross_income"
 }
 
 handle_day () {
-    total_gross_income="$(get_total_gross_income)"
-    total_income_tax="$(( "$total_gross_income" * "$income_tax_rate_numerator" / "$income_tax_rate_denominator" ))"
-    total_net_income="$(( "$total_gross_income" - "$total_income_tax" ))"
+    total_net_income="$(get_total_net_income)"
     interest="$(( "$loans" * "$interest_rate_numerator" / "$interest_rate_denominator" ))"
     total_car_rent_charge="$(( "$car_count" * "$car_rent_charge" ))"
     total_salary="$(( "$salary" * ("$driver_count" + "$manager_count") ))"
