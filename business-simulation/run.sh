@@ -132,6 +132,7 @@ do_business () {
                         printf \
 "\tLast day result %'i\n"\
                             "$last_day_result"
+                        read
                         ;;
                     loans)
                         printf \
@@ -140,6 +141,7 @@ do_business () {
                             "$loans"\
                             "$interest_rate_numerator"\
                             "$interest_rate_denominator"
+                        read
                         ;;
                     savings)
                         printf \
@@ -148,6 +150,7 @@ do_business () {
                             "$savings"\
                             "$savings_interest_rate_numerator"\
                             "$savings_interest_rate_denominator"
+                        read
                         ;;
                     cars)
                         printf \
@@ -155,6 +158,7 @@ do_business () {
 "\tCar rent charge %'i\n"\
                             "$car_count"\
                             "$car_rent_charge"
+                        read
                         ;;
                     employees)
                         printf \
@@ -164,10 +168,12 @@ do_business () {
                             "$driver_count"\
                             "$manager_count"\
                             "$salary"
+                        read
                         ;;
                 esac
                 ;;
         esac
+        tput cup 4 0 && tput ed
     done
 }
 
