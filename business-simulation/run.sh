@@ -8,7 +8,7 @@
 
 # Global variables. If a variable is global, it makes it easier to follow it than when it's local.
 
-# Not indented "printf"'s "FORMAT" argument lines. As one might see, the lines of the "FORMAT" argument of every "printf" are not indented at all. It is due to the fact which I observe that if the "FORMAT" argument of a "printf" constist of multiple lines, and beginning from the second one they were indented, then Bash would, or at least I am taking a guess that it would, based on what I see, interpret the lines as separate arguments to the "printf". I don't like this formatting inconsistency compared to the rest of the lines of the script. I am planning to change it if I happen to find a way.
+# Not indented "printf"'s "FORMAT" argument lines. As one might see, the lines of the "FORMAT" argument of every "printf" are not indented at all. It is due to the fact which I observe that if the "FORMAT" argument of a "printf" constist of multiple lines, and beginning from the second one they were indented, then Bash would, or at least I am taking a guess that it would, based on what I see, interpret the lines as separate arguments to the "printf". I don't like this formatting inconsistency compared to the rest of the lines of the script. I plan to change it if I happen to find a way.
 
 save_file_path="$1"
 if [[ -z "$save_file_path" ]]
