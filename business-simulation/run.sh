@@ -36,128 +36,134 @@ savings_interest_rate_numerator=1
 savings_interest_rate_denominator=100
 
 do_business () {
-    read -a c
-    case "${c[0]}" in
-        borrow)
-            (( money += "${c[1]}" ))
-            (( loans += "${c[1]}" ))
-            ;;
+    while read -a c -p '> '
+    do
+        if [[ -z "$c" ]]
+        then break
+        fi
 
-        repay)
-            if [[ "${c[1]}" -gt "$money" ]]
-            then money=0
-            else (( money -= "${c[1]}" ))
-            fi
-
-            if [[ "${c[1]}" -gt "$loans" ]]
-            then loans=0
-            else (( loans -= "${c[1]}" ))
-            fi
-            ;;
-
-        save)
-            if [[ "${c[1]}" -gt "$money" ]]
-            then
-                (( savings += "$money" ))
-                money=0
-            else
-                (( money -= "${c[1]}" ))
-                (( savings += "${c[1]}" ))
-            fi
-            ;;
-
-        desave)
-            if [[ "${c[1]}" -gt "$savings" ]]
-            then
-                (( money += "$savings" ))
-                savings=0
-            else
-                (( savings -= "${c[1]}" ))
+        case "${c[0]}" in
+            borrow)
                 (( money += "${c[1]}" ))
-            fi
-            ;;
+                (( loans += "${c[1]}" ))
+                ;;
 
-        employ)
-            case "${c[1]}" in
-                drivers) (( driver_count += "${c[2]}" )) ;;
-                managers) (( manager_count += "${c[2]}" )) ;;
-            esac
-            ;;
+            repay)
+                if [[ "${c[1]}" -gt "$money" ]]
+                then money=0
+                else (( money -= "${c[1]}" ))
+                fi
 
-        dismiss)
-            case "${c[1]}" in
-                drivers)
-                    if [[ "${c[2]}" -gt "$driver_count" ]]
-                    then driver_count=0
-                    else (( driver_count -= "${c[1]}" ))
-                    fi
-                    ;;
+                if [[ "${c[1]}" -gt "$loans" ]]
+                then loans=0
+                else (( loans -= "${c[1]}" ))
+                fi
+                ;;
 
-                managers)
-                    if [[ "${c[2]}" -gt "$manager_count" ]]
-                    then manager_count=0
-                    else (( manager_count -= "${c[1]}" ))
-                    fi
-                    ;;
-            esac
-            ;;
+            save)
+                if [[ "${c[1]}" -gt "$money" ]]
+                then
+                    (( savings += "$money" ))
+                    money=0
+                else
+                    (( money -= "${c[1]}" ))
+                    (( savings += "${c[1]}" ))
+                fi
+                ;;
 
-        rent) (( car_count += "${c[1]}" )) ;;
+            desave)
+                if [[ "${c[1]}" -gt "$savings" ]]
+                then
+                    (( money += "$savings" ))
+                    savings=0
+                else
+                    (( savings -= "${c[1]}" ))
+                    (( money += "${c[1]}" ))
+                fi
+                ;;
 
-        end)
-            case "${c[1]}" in
-                renting)
-                    if [[ "${c[2]}" -gt "$car_count" ]]
-                    then car_count=0
-                    else (( car_count -= "${c[2]}" ))
-                    fi
-                    ;;
-            esac
-            ;;
+            employ)
+                case "${c[1]}" in
+                    drivers) (( driver_count += "${c[2]}" )) ;;
+                    managers) (( manager_count += "${c[2]}" )) ;;
+                esac
+                ;;
 
-        show)
-            case "${c[1]}" in
-                yesterday)
-                    printf \
+            dismiss)
+                case "${c[1]}" in
+                    drivers)
+                        if [[ "${c[2]}" -gt "$driver_count" ]]
+                        then driver_count=0
+                        else (( driver_count -= "${c[1]}" ))
+                        fi
+                        ;;
+
+                    managers)
+                        if [[ "${c[2]}" -gt "$manager_count" ]]
+                        then manager_count=0
+                        else (( manager_count -= "${c[1]}" ))
+                        fi
+                        ;;
+                esac
+                ;;
+
+            rent) (( car_count += "${c[1]}" )) ;;
+
+            end)
+                case "${c[1]}" in
+                    renting)
+                        if [[ "${c[2]}" -gt "$car_count" ]]
+                        then car_count=0
+                        else (( car_count -= "${c[2]}" ))
+                        fi
+                        ;;
+                esac
+                ;;
+
+            show)
+                case "${c[1]}" in
+                    yesterday)
+                        printf \
 "\tLast day result %'i\n"\
-                        "$last_day_result"
-                    ;;
-                loans)
-                    printf \
+                            "$last_day_result"
+                        ;;
+                    loans)
+                        printf \
 "\tLoans %'i\n"\
 "\tLoan interest rate %'i/%'i\n"\
-                        "$loans"\
-                        "$interest_rate_numerator"\
-                        "$interest_rate_denominator"
-                    ;;
-                savings)
-                    printf \
+                            "$loans"\
+                            "$interest_rate_numerator"\
+                            "$interest_rate_denominator"
+                        ;;
+                    savings)
+                        printf \
 "\tSavings %'i\n"\
 "\tSavings interest rate %'i/%'i\n"\
-                        "$savings"\
-                        "$savings_interest_rate_numerator"\
-                        "$savings_interest_rate_denominator"
-                    ;;
-                cars)
-                    printf \
+                            "$savings"\
+                            "$savings_interest_rate_numerator"\
+                            "$savings_interest_rate_denominator"
+                        ;;
+                    cars)
+                        printf \
 "\tCar count %'i\n"\
 "\tCar rent charge %'i\n"\
-                        "$car_count"\
-                        "$car_rent_charge"
-                    ;;
-                employees)
-                    printf \
+                            "$car_count"\
+                            "$car_rent_charge"
+                        ;;
+                    employees)
+                        printf \
 "\tDriver count %'i\n"\
 "\tManager count %'i\n"\
 "\tSalary %'i\n"\
-                        "$driver_count"\
-                        "$manager_count"\
-                        "$salary"
-                    ;;
-            esac
-            read
-            ;;
-    esac
+                            "$driver_count"\
+                            "$manager_count"\
+                            "$salary"
+                        ;;
+                esac
+                read
+                ;;
+        esac
+    done
 }
 
 min () {
@@ -237,14 +243,7 @@ run () {
             "$manager_count"\
             "$car_count"\
             "$(min "$car_count" "$driver_count")"
-        while read -p '> ' c
-        do
-            if [[ -z "$c" ]]
-            then break
-            fi
-
-            echo "$c" | do_business
-        done
+        do_business
         handle_day
         save
     done
