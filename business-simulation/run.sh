@@ -14,6 +14,8 @@
 
 # Thousands separation. I wanted to increase money amounts readability by visually separating thousands. So, I have replaced "echo" with "printf". "printf" calls the separator (separators?) that it is to use "thousands' grouping characters". No idea why there is plural used, but this functionality seems to do what I want. See "man bash" (search for "printf"), then "man 1 printf", then "man 3 printf", and optionally https://pubs.opengroup.org/onlinepubs/9799919799/functions/printf.html. If you want to change how thousands are separated, you need to, if I understood correctly, change the "LC_NUMERIC" environment variable.
 
+# The maximum number of vehicles per manager. The maximum number of vehicles per manager is 50 because I assume https://www.gov.uk/become-transport-manager as a requirement. This in turn was implemented because I needed some upper limit for manager effectiveness so that just employing more managers, without renting new cars, not yield higher income ad infinitum.
+
 save_file_path="$1"
 if [[ -z "$save_file_path" ]]
 then
@@ -32,7 +34,6 @@ last_day_result=0
 car_rent_charge=1
 salary=10
 income=25
-# The maximum single manager vehicle count is 50 because I assume https://www.gov.uk/become-transport-manager as a requirement. This in turn was implemented because I needed some upper limit for manager effectiveness so that just employing more managers, without renting new cars, not yield higher income ad infinitum.
 maximum_single_manager_vehicle_count=50
 income_tax_rate_numerator=1
 income_tax_rate_denominator=10
