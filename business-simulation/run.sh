@@ -10,6 +10,8 @@
 
 # Not indented "printf"'s "FORMAT" argument lines. As one might see, the lines of the "FORMAT" argument of every "printf" are not indented at all. It is due to the fact which I observe that if the "FORMAT" argument of a "printf" constist of multiple lines, and beginning from the second one they were indented, then Bash would, or at least I am taking a guess that it would, based on what I see, interpret the lines as separate arguments to the "printf". I don't like this formatting inconsistency compared to the rest of the lines of the script. I plan to change it if I happen to find a way.
 
+# Not indented "echo"'s argument lines. Per Bash's manual part on "echo", it separates its arguments with spaces. So, to be able to split a long argument into separate lines, and not creating separate arguments in the same time, I must leave the lines not indented. As in the case of "printf" (see), I plan to change it someday.
+
 # Thousands separation. I wanted to increase money amounts readability by visually separating thousands. So, I have replaced "echo" with "printf". "printf" calls the separator (separators?) that it is to use "thousands' grouping characters". No idea why there is plural used, but this functionality seems to do what I want. See "man bash" (search for "printf"), then "man 1 printf", then "man 3 printf", and optionally https://pubs.opengroup.org/onlinepubs/9799919799/functions/printf.html. If you want to change how thousands are separated, you need to, if I understood correctly, change the "LC_NUMERIC" environment variable.
 
 save_file_path="$1"
