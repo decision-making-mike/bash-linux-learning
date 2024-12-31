@@ -160,7 +160,6 @@ do_business () {
                             "$salary"
                         ;;
                 esac
-                read
                 ;;
         esac
     done
