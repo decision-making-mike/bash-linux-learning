@@ -178,6 +178,7 @@ do_business () {
                 esac
                 ;;
         esac
+        # The screen is cleared from line 5 because the first 4 lines contain the status of the business.
         tput cup 4 0
         tput ed
     done
