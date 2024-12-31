@@ -173,7 +173,8 @@ do_business () {
                 esac
                 ;;
         esac
-        tput cup 4 0 && tput ed
+        tput cup 4 0
+        tput ed
     done
 }
 
