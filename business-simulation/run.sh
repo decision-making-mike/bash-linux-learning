@@ -135,6 +135,7 @@ do_business () {
                             "$last_day_result"
                         read
                         ;;
+
                     loans)
                         printf \
 "\tLoans %'i\n"\
@@ -144,6 +145,7 @@ do_business () {
                             "$interest_rate_denominator"
                         read
                         ;;
+
                     savings)
                         printf \
 "\tSavings %'i\n"\
@@ -153,6 +155,7 @@ do_business () {
                             "$savings_interest_rate_denominator"
                         read
                         ;;
+
                     cars)
                         printf \
 "\tCar count %'i\n"\
@@ -161,6 +164,7 @@ do_business () {
                             "$car_rent_charge"
                         read
                         ;;
+
                     employees)
                         printf \
 "\tDriver count %'i\n"\
