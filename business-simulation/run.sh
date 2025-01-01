@@ -16,6 +16,8 @@
 
 # The maximum number of vehicles per manager. The maximum number of vehicles per manager is 50 because I assume https://www.gov.uk/become-transport-manager as a requirement. This in turn was implemented because I needed some upper limit for manager effectiveness so that just employing more managers, without renting new cars, not yield higher income ad infinitum.
 
+# The storage of simulation parameters. Currently, simulation parameters are stored as plain old Bash variables in the same file as the rest of the program. One might happen to find the number of them big enough to consider using an array for storing them, or at least a separate file. This might be amplified by the fact that I predict more parameters to be introduced, that is, more than one or two. But, I am not sure which of those two proposals is going to introduce more complexity than just keeping storing the parameters like they are now. By "complexity" I understand any complexity related to the program, for example the complexity of maintenance of the parameters, or of keeping the code secure. Due to this unsureness, for now I change nothing.
+
 save_file_path="$1"
 if [[ -z "$save_file_path" ]]
 then
@@ -23,6 +25,7 @@ then
     exit 1
 fi
 
+# Variables
 day=1
 money=0
 loans=0
@@ -31,6 +34,8 @@ driver_count=0
 manager_count=0
 car_count=0
 last_day_result=0
+
+# Constants
 car_rent_charge=1
 salary=10
 income=25
@@ -43,7 +48,16 @@ savings_interest_rate_numerator=1
 savings_interest_rate_denominator=100
 
 do_business () {
-    while read -a c -p '> '
+    prompt='(new day) > '
+
+    money_change=0
+    loans_change=0
+    savings_change=0
+    driver_count_change=0
+    manager_count_change=0
+    car_count_change=0
+
+    while read -a c -p "$prompt"
     do
         if [[ -z "$c" ]]
         then break
@@ -51,84 +65,66 @@ do_business () {
 
         case "${c[0]}" in
             borrow)
-                (( money += "${c[1]}" ))
-                (( loans += "${c[1]}" ))
+                (( money_change += "${c[1]}" ))
+                (( loans_change += "${c[1]}" ))
                 ;;
 
             repay)
-                if [[ "${c[1]}" -gt "$money" ]]
-                then money=0
-                else (( money -= "${c[1]}" ))
-                fi
-
-                if [[ "${c[1]}" -gt "$loans" ]]
-                then loans=0
-                else (( loans -= "${c[1]}" ))
-                fi
+                (( money_change -= "${c[1]}" ))
+                (( loans_change -= "${c[1]}" ))
                 ;;
 
             save)
-                if [[ "${c[1]}" -gt "$money" ]]
-                then
-                    (( savings += "$money" ))
-                    money=0
-                else
-                    (( money -= "${c[1]}" ))
-                    (( savings += "${c[1]}" ))
-                fi
+                (( money_change -= "${c[1]}" ))
+                (( savings_change += "${c[1]}" ))
                 ;;
 
             desave)
-                if [[ "${c[1]}" -gt "$savings" ]]
-                then
-                    (( money += "$savings" ))
-                    savings=0
-                else
-                    (( savings -= "${c[1]}" ))
-                    (( money += "${c[1]}" ))
-                fi
+                (( money_change += "${c[1]}" ))
+                (( savings_change -= "${c[1]}" ))
                 ;;
 
             employ)
                 case "${c[1]}" in
-                    drivers) (( driver_count += "${c[2]}" )) ;;
-                    managers) (( manager_count += "${c[2]}" )) ;;
+                    drivers) (( driver_count_change += "${c[2]}" )) ;;
+                    managers) (( manager_count_change += "${c[2]}" )) ;;
                 esac
                 ;;
 
             dismiss)
                 case "${c[1]}" in
-                    drivers)
-                        if [[ "${c[2]}" -gt "$driver_count" ]]
-                        then driver_count=0
-                        else (( driver_count -= "${c[1]}" ))
-                        fi
-                        ;;
-
-                    managers)
-                        if [[ "${c[2]}" -gt "$manager_count" ]]
-                        then manager_count=0
-                        else (( manager_count -= "${c[1]}" ))
-                        fi
-                        ;;
+                    drivers) (( driver_count_change -= "${c[2]}" )) ;;
+                    managers) (( manager_count_change -= "${c[2]}" )) ;;
                 esac
                 ;;
 
-            rent) (( car_count += "${c[1]}" )) ;;
+            rent) (( car_count_change += "${c[1]}" )) ;;
 
             end)
                 case "${c[1]}" in
-                    renting)
-                        if [[ "${c[2]}" -gt "$car_count" ]]
-                        then car_count=0
-                        else (( car_count -= "${c[2]}" ))
-                        fi
-                        ;;
+                    renting) (( car_count_change -= "${c[2]}" )) ;;
                 esac
                 ;;
 
             show)
                 case "${c[1]}" in
+                    changes)
+                        printf \
+"\tMoney change %'i\n"\
+"\tLoans change %'i\n"\
+"\tSavings change %'i\n"\
+"\tDriver count change %'i\n"\
+"\tManager count change %'i\n"\
+"\tCar count change %'i\n"\
+                            "$money_change" \
+                            "$loans_change" \
+                            "$savings_change" \
+                            "$driver_count_change" \
+                            "$manager_count_change" \
+                            "$car_count_change"
+                        read
+                        ;;
+
                     yesterday)
                         printf \
 "\tLast day result %'i\n"\
@@ -181,7 +177,43 @@ do_business () {
         # The screen is cleared from line 5 because the first 4 lines contain the status of the business.
         tput 'cup' 4 0
         tput 'ed'
+
+        if [[ "$money_change" -ne 0 ]] \
+            || [[ "$loans_change" -ne 0 ]] \
+            || [[ "$savings_change" -ne 0 ]] \
+            || [[ "$driver_count_change" -ne 0 ]] \
+            || [[ "$manager_count_change" -ne 0 ]] \
+            || [[ "$car_count_change" -ne 0 ]]
+        then prompt='(changes) > '
+        fi
     done
+
+    (( money += "$money_change" ))
+
+    if [[ "$(( loans + loans_change ))" -lt 0 ]]
+    then loans=0
+    else (( loans += loans_change ))
+    fi
+
+    if [[ "$(( savings + savings_change ))" -lt 0 ]]
+    then savings=0
+    else (( savings += savings_change ))
+    fi
+
+    if [[ "$(( driver_count + driver_count_change ))" -lt 0 ]]
+    then driver_count=0
+    else (( driver_count += driver_count_change ))
+    fi
+
+    if [[ "$(( manager_count + manager_count_change ))" -lt 0 ]]
+    then manager_count=0
+    else (( manager_count += manager_count_change ))
+    fi
+
+    if [[ "$(( car_count + car_count_change ))" -lt 0 ]]
+    then car_count=0
+    else (( car_count += car_count_change ))
+    fi
 }
 
 min () {
@@ -214,6 +246,7 @@ handle_day () {
 
     if [[ "$(( "$day_result" + "$money" ))" -lt 0 ]]
     then
+        # TODO Thousand separation
         # Notice that we don't add the day result to money here, but only if the check fails. It prevents to save the current, unfortunate state of the business. This in turn gives the user a small chance to take remedial action in the first day, by starting the simulation anew with the file with the current save.
         echo "Money $money, day result $day_result, balance is going to be negative, business closed"
         exit 0
