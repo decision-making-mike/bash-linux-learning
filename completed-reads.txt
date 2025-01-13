@@ -1,0 +1,13 @@
+https://unix.stackexchange.com/questions/114121/how-to-compose-bash-functions-using-pipes
+https://unix.stackexchange.com/questions/497985/is-piping-shifting-or-parameter-expansion-more-efficient
+https://stackoverflow.com/questions/36313216/why-is-testing-to-see-if-a-command-succeeded-or-not-an-anti-pattern
+https://unix.stackexchange.com/questions/748702/which-file-descriptor-numbers-are-safe-to-use-in-posix-shell-scripts
+https://stackoverflow.com/questions/76373352/what-occurs-when-i-use-redirection-without-leading-commands
+https://stackoverflow.com/questions/4819819/get-autocompletion-when-invoking-a-read-inside-a-bash-script
+https://unix.stackexchange.com/questions/157381/when-was-the-shellshock-cve-2014-6271-7169-bug-introduced-and-what-is-the-pat/157495#157495
+https://stackoverflow.com/questions/8354482/dialog-from-bash-script
+https://unix.stackexchange.com/questions/172103/security-implications-of-using-unsanitized-data-in-shell-arithmetic-evaluation
+https://stackoverflow.com/questions/51508833/does-linux-pipe-command-needs-a-process-to-execute
+https://stackoverflow.com/questions/12626227/is-there-a-way-to-improve-performance-of-linux-pipes
+https://unix.stackexchange.com/questions/210628/why-does-the-terminal-echo-keystrokes-when-commands-are-running
+https://unix.stackexchange.com/questions/178989/is-it-safe-to-type-another-command-into-stdin-while-the-previous-command-is-writ
