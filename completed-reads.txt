@@ -11,3 +11,14 @@ https://stackoverflow.com/questions/51508833/does-linux-pipe-command-needs-a-pro
 https://stackoverflow.com/questions/12626227/is-there-a-way-to-improve-performance-of-linux-pipes
 https://unix.stackexchange.com/questions/210628/why-does-the-terminal-echo-keystrokes-when-commands-are-running
 https://unix.stackexchange.com/questions/178989/is-it-safe-to-type-another-command-into-stdin-while-the-previous-command-is-writ
+https://www.networkworld.com/article/965112/why-use-named-pipes-on-linux.html
+https://en.m.wikipedia.org/wiki/Named_pipe
+https://superuser.com/questions/269429/why-did-after-return-an-unexpected-token-error-in-bash
+https://superuser.com/questions/424086/what-is-the-difference-between-screen-256-color-and-xterm-256color
+https://en.m.wikipedia.org/wiki/Virtual_console
+https://unix.stackexchange.com/questions/714209/get-cursor-location-in-tty-without-reading-from-stdin-need-help-with-redirectio/714322#714322
+https://stackoverflow.com/questions/33531747/difference-in-pipe-and-file-redirection-bash/33532589#33532589
+https://unix.stackexchange.com/questions/110240/why-does-ctrl-d-eof-exit-the-shell
+https://stackoverflow.com/questions/821396/aborting-a-shell-script-if-any-command-returns-a-non-zero-value/821419#821419
+https://unix.stackexchange.com/questions/580888/getting-this-weird-error-in-zsh-shell-top-failed-tty-set-interrupted-system-c
+https://superuser.com/questions/1838764/shell-prompt-colored-outside-of-tmux-but-not-in-tmux-how-can-i-get-colored-pro
