@@ -22,3 +22,7 @@ https://unix.stackexchange.com/questions/110240/why-does-ctrl-d-eof-exit-the-she
 https://stackoverflow.com/questions/821396/aborting-a-shell-script-if-any-command-returns-a-non-zero-value/821419#821419
 https://unix.stackexchange.com/questions/580888/getting-this-weird-error-in-zsh-shell-top-failed-tty-set-interrupted-system-c
 https://superuser.com/questions/1838764/shell-prompt-colored-outside-of-tmux-but-not-in-tmux-how-can-i-get-colored-pro
+https://utcc.utoronto.ca/~cks/space/blog/unix/ProcessSubstitutionWhyLate
+https://unix.stackexchange.com/questions/206350/what-is-the-difference-if-i-start-bash-with-bin-bash-or-usr-bin-env-bash
+https://stackoverflow.com/questions/7268437/bash-script-execution-with-and-without-shebang-in-linux-and-bsd
+https://stackoverflow.com/questions/12296308/shell-script-working-fine-without-shebang-line-why
